@@ -173,20 +173,19 @@ const form = document.getElementById("early-access-form");
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
+
+  if (!email) {
+    alert("Please enter a valid email.");
+    return;
+  }
+
   const formData = new FormData();
   formData.append("email", email);
 
   try {
-    await emailjs.send(
-      "service_btqah9n",
-      "template_mrfxxp8",
-      {
-        user_email: email
-      }
-    );
-
-    await fetch("https://formspree.io/f/mwvrbyan", {
+    // 1) Guardar primero en Formspree
+    const formspreeResponse = await fetch("https://formspree.io/f/mwvrbyan", {
       method: "POST",
       body: formData,
       headers: {
@@ -194,9 +193,33 @@ form.addEventListener("submit", async function (e) {
       }
     });
 
+    if (!formspreeResponse.ok) {
+      const errorText = await formspreeResponse.text();
+      alert("Form submission failed. Please try again.");
+      console.error("Formspree error:", errorText);
+      return;
+    }
+
+    // 2) Intentar enviar email automático con EmailJS
+    try {
+      await emailjs.send(
+        "service_btqah9n",
+        "template_mrfxxp8",
+        {
+          user_email: email
+        }
+      );
+      console.log("EmailJS: welcome email sent.");
+    } catch (emailError) {
+      console.error("EmailJS error:", emailError);
+      // No bloqueamos al usuario si falla el email
+    }
+
+    // 3) Redirigir siempre si Formspree sí guardó el lead
     window.location.href = "thank-you.html";
+
   } catch (error) {
-    console.error("Submit error:", error);
+    console.error("General error:", error);
     alert("Something went wrong. Please try again.");
   }
 });
