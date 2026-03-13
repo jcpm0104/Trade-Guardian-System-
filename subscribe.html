@@ -116,6 +116,7 @@ display:inline-block;
 margin-top:28px;
 font-size:14px;
 color:#c8d5ea;
+text-decoration:none;
 }
 
 .back:hover{
@@ -143,14 +144,17 @@ Trade Guardian System
 </div>
 
 <p>
-The platform is currently under development.
-Join the early access list and you will be notified
-as soon as the system becomes available.
+The platform is currently under development. Join the early access list and you
+will be notified as soon as the system becomes available.
 </p>
 
-<form>
-<input type="email" placeholder="Enter your email" required>
-<button type="submit">Join Early Access</button>
+<form action="https://formspree.io/f/TU_FORM_ID" method="POST">
+  <input type="email" name="email" placeholder="Enter your email" required>
+
+  <input type="hidden" name="_subject" value="New Trade Guardian Early Access Signup">
+  <input type="hidden" name="_next" value="https://TU-USUARIO.github.io/TU-REPO/thank-you.html">
+
+  <button type="submit">Join Early Access</button>
 </form>
 
 <div class="note">
