@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recommended Plans — Trade Guardian</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#08111f;
+      --panel:rgba(255,255,255,.04);
+      --line:rgba(255,255,255,.08);
+      --text:#eaf1ff;
+      --muted:#97a7c0;
+      --blue:#2f6bff;
+      --blue-soft:#79a3ff;
+      --green:#35d07f;
+      --yellow:#f3b33d;
+      --red:#ff5d5d;
+      --radius:24px;
+      --max:1180px;
+      --shadow:0 24px 60px rgba(0,0,0,.34);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+
+    body{
+      font-family:'Inter',system-ui,sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(47,107,255,.15), transparent 35%),
+        #08111f;
+      color:var(--text);
+      min-height:100vh;
+      padding:32px 20px 40px;
+    }
+
+    .container{
+      width:min(var(--max),100%);
+      margin:0 auto;
+    }
+
+    .header{
+      text-align:center;
+      margin-bottom:34px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:#dbe7ff;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:16px;
+    }
+
+    h1{
+      font-size:clamp(34px, 5vw, 56px);
+      line-height:1.05;
+      letter-spacing:-.04em;
+      margin-bottom:14px;
+    }
+
+    .subtitle{
+      max-width:760px;
+      margin:0 auto;
+      color:var(--muted);
+      font-size:17px;
+      line-height:1.7;
+    }
+
+    .summary-bar{
+      margin:24px auto 36px;
+      max-width:920px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+    }
+
+    .summary-item{
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      text-align:center;
+    }
+
+    .summary-item .label{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:8px;
+      font-weight:600;
+    }
+
+    .summary-item .value{
+      font-size:20px;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.025));
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:26px 22px 22px;
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at top right, rgba(47,107,255,.10), transparent 28%);
+      pointer-events:none;
+    }
+
+    .card-header{
+      position:relative;
+      z-index:1;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .plan-name{
+      font-size:24px;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .plan-sub{
+      color:var(--muted);
+      font-size:14px;
+      margin-top:6px;
+      line-height:1.5;
+    }
+
+    .risk-badge{
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.02em;
+      white-space:nowrap;
+    }
+
+    .risk-low{
+      background:rgba(53,208,127,.14);
+      color:#8ff5bd;
+      border:1px solid rgba(53,208,127,.24);
+    }
+
+    .risk-mid{
+      background:rgba(243,179,61,.14);
+      color:#ffd78e;
+      border:1px solid rgba(243,179,61,.24);
+    }
+
+    .risk-high{
+      background:rgba(255,93,93,.14);
+      color:#ffb0b0;
+      border:1px solid rgba(255,93,93,.24);
+    }
+
+    .metrics{
+      position:relative;
+      z-index:1;
+      display:grid;
+      gap:12px;
+    }
+
+    .metric{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:16px;
+      padding:14px 14px;
+    }
+
+    .metric-label{
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:8px;
+      font-weight:600;
+    }
+
+    .metric-value{
+      font-size:24px;
+      font-weight:800;
+      letter-spacing:-.03em;
+    }
+
+    .features{
+      position:relative;
+      z-index:1;
+      display:grid;
+      gap:10px;
+    }
+
+    .feature{
+      font-size:14px;
+      color:#dbe7ff;
+      line-height:1.6;
+      padding-left:18px;
+      position:relative;
+    }
+
+    .feature::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:9px;
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:var(--blue-soft);
+      box-shadow:0 0 10px rgba(121,163,255,.5);
+    }
+
+    .reason-box{
+      position:relative;
+      z-index:1;
+      background:rgba(255,255,255,.025);
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:14px;
+      padding:12px 14px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .pressure-box{
+      position:relative;
+      z-index:1;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(255,255,255,.025);
+      border:1px solid rgba(255,255,255,.05);
+    }
+
+    .pressure-dot{
+      width:12px;
+      height:12px;
+      border-radius:999px;
+      flex:0 0 12px;
+    }
+
+    .pressure-low{ background:var(--green); }
+    .pressure-mid{ background:var(--yellow); }
+    .pressure-high{ background:var(--red); }
+
+    .pressure-text{
+      color:#dbe7ff;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .cta-row{
+      position:relative;
+      z-index:1;
+      margin-top:auto;
+    }
+
+    .btn{
+      width:100%;
+      min-height:48px;
+      border:none;
+      border-radius:14px;
+      font-weight:700;
+      font-size:15px;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .btn-primary{
+      background:linear-gradient(180deg,#4d82ff,var(--blue));
+      color:#fff;
+    }
+
+    .btn-primary:hover{
+      filter:brightness(1.05);
+      transform:translateY(-1px);
+    }
+
+    .custom-plan-wrap{
+      margin-top:30px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .custom-btn{
+      min-height:50px;
+      padding:0 22px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .custom-btn:hover{
+      background:rgba(255,255,255,.06);
+      transform:translateY(-1px);
+    }
+
+    @media (max-width: 980px){
+      .cards{
+        grid-template-columns:1fr;
+      }
+
+      .summary-bar{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px){
+      .summary-bar{
+        grid-template-columns:1fr;
+      }
+
+      .card-header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="eyebrow">Recommended Trading Plans</div>
+    <h1>Choose the plan that best fits your profile</h1>
+    <div class="subtitle">
+      Trade Guardian analyzed your trader profile and account rules to generate three plan options.
+      Each plan stays within your account limits while adjusting your risk per trade and maximum trades per day.
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <div class="summary-item">
+      <div class="label">Account Type</div>
+      <div class="value" id="summaryAccountType">—</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">Daily Loss Limit</div>
+      <div class="value" id="summaryDailyLoss">—</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">Max Risk Per Trade</div>
+      <div class="value" id="summaryRiskPerTrade">—</div>
+    </div>
+    <div class="summary-item">
+      <div class="label">Max Trades Per Day</div>
+      <div class="value" id="summaryMaxTrades">—</div>
+    </div>
+  </div>
+
+  <div class="cards" id="planCards"></div>
+
+  <div class="custom-plan-wrap">
+    <button class="custom-btn" id="customPlanBtn">Create My Own Trading Plan</button>
+  </div>
+
+</div>
+
+<script>
+const traderProfile = JSON.parse(localStorage.getItem("tradeGuardianTraderProfile")) || {};
+const accountRules = JSON.parse(localStorage.getItem("tradeGuardianAccountRules")) || {};
+
+function safeNumber(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function roundSmart(value, mode = "money") {
+  if (mode === "percent") return Number(value.toFixed(2));
+  if (value <= 10) return Number(value.toFixed(1));
+  return Math.round(value);
+}
+
+function formatMoney(value) {
+  const n = safeNumber(value);
+  return `$${n.toLocaleString()}`;
+}
+
+function formatRisk(mode, value) {
+  const n = safeNumber(value);
+  if (mode === "Percentage of account") {
+    return `${n}%`;
+  }
+  return formatMoney(n);
+}
+
+function getContext() {
+  return {
+    accountType: accountRules.accountType || "",
+    propFirmType: accountRules.propFirmType || "",
+    dailyLoss: safeNumber(accountRules.dailyLossLimit),
+    maxDrawdown: safeNumber(accountRules.maxDrawdown),
+    trailingDrawdown: accountRules.trailingDrawdownRule || "",
+    profitTarget: safeNumber(accountRules.profitTarget),
+    maxContracts: safeNumber(accountRules.maxContractsOrLotSize),
+    consistencyRule: accountRules.consistencyRule || "",
+    minimumTradingDaysRequired: accountRules.minimumTradingDaysRequired || "",
+    minimumTradingDaysCount: safeNumber(accountRules.minimumTradingDaysCount),
+    riskMode: accountRules.riskPerTradeMode || "Fixed dollar amount",
+    riskValue: safeNumber(accountRules.riskPerTradeValue),
+    maxTradesPerDay: safeNumber(accountRules.maxTradesPerDay),
+    drawdownWarningBuffer: safeNumber(accountRules.drawdownWarningBuffer),
+    stopAfterConsecutiveLosses: safeNumber(accountRules.stopAfterConsecutiveLosses),
+    maxOpenTradesAtSameTime: safeNumber(accountRules.maxOpenTradesAtSameTime),
+    maxTotalRiskAcrossOpenTrades: safeNumber(accountRules.maxTotalRiskAcrossOpenTrades),
+    minimumRiskRewardRatio: safeNumber(accountRules.minimumRiskRewardRatio),
+    maxSingleTradeProfitPercentOfDailyTarget: safeNumber(accountRules.maxSingleTradeProfitPercentOfDailyTarget),
+    minimumTimeBetweenTradesMinutes: safeNumber(accountRules.minimumTimeBetweenTradesMinutes),
+    maxDifferentInstrumentsPerDay: safeNumber(accountRules.maxDifferentInstrumentsPerDay),
+    maxDailyAccountRiskPercent: safeNumber(accountRules.maxDailyAccountRiskPercent),
+
+    experience: traderProfile.experience || "",
+    markets: traderProfile.markets || [],
+    execution: traderProfile.execution || "",
+    multipleAccounts: traderProfile.multiAccounts || "",
+    replication: traderProfile.replication || "",
+    propfirm: traderProfile.propfirm || "",
+    objectives: traderProfile.objectives || [],
+    session: traderProfile.session || "",
+    overnight: traderProfile.overnight || ""
+  };
+}
+
+function calculateBehaviorCaution(ctx) {
+  let caution = 1;
+
+  if (ctx.accountType === "Funded Account") caution -= 0.12;
+  if (ctx.accountType === "Evaluation Account") caution -= 0.08;
+
+  if (ctx.trailingDrawdown === "Yes") caution -= 0.12;
+  if (ctx.consistencyRule === "Yes") caution -= 0.10;
+  if (ctx.minimumTradingDaysRequired === "Yes") caution -= 0.04;
+
+  if (ctx.experience === "Beginner") caution -= 0.12;
+  if (ctx.experience === "Intermediate") caution -= 0.04;
+
+  if (ctx.multipleAccounts === "Yes") caution -= 0.06;
+  if (ctx.replication === "Yes") caution -= 0.06;
+
+  if (ctx.execution === "Both Manual and Automated") caution -= 0.03;
+  if (ctx.execution === "Automated Trading") caution -= 0.02;
+
+  if (ctx.maxTradesPerDay >= 8) caution -= 0.05;
+  else if (ctx.maxTradesPerDay <= 3) caution += 0.02;
+
+  if (ctx.stopAfterConsecutiveLosses > 0 && ctx.stopAfterConsecutiveLosses <= 2) caution += 0.02;
+  if (ctx.minimumTimeBetweenTradesMinutes > 0 && ctx.minimumTimeBetweenTradesMinutes < 3) caution -= 0.04;
+  if (ctx.minimumTimeBetweenTradesMinutes >= 5) caution += 0.01;
+
+  if (ctx.maxDifferentInstrumentsPerDay > 1) caution -= 0.03;
+  if (ctx.maxOpenTradesAtSameTime > 1) caution -= 0.04;
+
+  if (ctx.minimumRiskRewardRatio > 0 && ctx.minimumRiskRewardRatio >= 2) caution += 0.02;
+  if (ctx.maxDailyAccountRiskPercent > 0 && ctx.maxDailyAccountRiskPercent <= 2) caution += 0.02;
+  if (ctx.maxDailyAccountRiskPercent > 4) caution -= 0.04;
+
+  return clamp(caution, 0.45, 1.00);
+}
+
+function deriveRiskCap(ctx) {
+  let finalCap = ctx.riskValue > 0 ? ctx.riskValue : 0;
+
+  if (ctx.dailyLoss > 0) {
+    const capByDailyLoss = ctx.dailyLoss * 0.25;
+    finalCap = finalCap > 0 ? Math.min(finalCap, capByDailyLoss) : capByDailyLoss;
+  }
+
+  if (ctx.maxTotalRiskAcrossOpenTrades > 0) {
+    const slots = Math.max(ctx.maxOpenTradesAtSameTime || 1, 1);
+    const capByOpenRisk = ctx.maxTotalRiskAcrossOpenTrades / slots;
+    finalCap = finalCap > 0 ? Math.min(finalCap, capByOpenRisk) : capByOpenRisk;
+  }
+
+  return finalCap > 0 ? finalCap : ctx.riskValue;
+}
+
+function deriveTradeCap(ctx) {
+  let maxTradesCap = ctx.maxTradesPerDay > 0 ? ctx.maxTradesPerDay : 1;
+
+  if (ctx.minimumTimeBetweenTradesMinutes >= 10) {
+    maxTradesCap = Math.min(maxTradesCap, 3);
+  } else if (ctx.minimumTimeBetweenTradesMinutes >= 5) {
+    maxTradesCap = Math.min(maxTradesCap, 5);
+  }
+
+  return Math.max(1, maxTradesCap);
+}
+
+function calculateRiskPressure(ctx, effectiveRisk, effectiveMaxTrades) {
+  const dailyPressure = ctx.dailyLoss > 0 ? (effectiveRisk / ctx.dailyLoss) : 0;
+  const stackPressure = ctx.dailyLoss > 0 ? ((effectiveRisk * effectiveMaxTrades) / ctx.dailyLoss) : 0;
+  const drawdownPressure = ctx.maxDrawdown > 0 ? (effectiveRisk / ctx.maxDrawdown) : 0;
+
+  const pressureScore =
+    (dailyPressure * 0.4) +
+    (stackPressure * 0.4) +
+    (drawdownPressure * 0.2);
+
+  return {
+    dailyPressure,
+    stackPressure,
+    drawdownPressure,
+    pressureScore
+  };
+}
+
+function pressureAdjustment(score) {
+  if (score < 0.5) return 1.00;
+  if (score < 1.0) return 0.90;
+  if (score < 1.5) return 0.75;
+  return 0.60;
+}
+
+function getPressureLabel(score) {
+  if (score < 0.5) return { dotClass: "pressure-low", text: "Low risk pressure profile" };
+  if (score < 1.0) return { dotClass: "pressure-mid", text: "Moderate risk pressure profile" };
+  return { dotClass: "pressure-high", text: "High risk pressure profile" };
+}
+
+function buildPlanReasons(ctx) {
+  const reasons = [];
+
+  if (ctx.accountType === "Funded Account") reasons.push("funded account protection");
+  if (ctx.accountType === "Evaluation Account") reasons.push("evaluation restrictions");
+  if (ctx.trailingDrawdown === "Yes") reasons.push("trailing drawdown sensitivity");
+  if (ctx.consistencyRule === "Yes") reasons.push("consistency rule");
+  if (ctx.experience === "Beginner") reasons.push("beginner experience level");
+  if (ctx.multipleAccounts === "Yes") reasons.push("multiple accounts");
+  if (ctx.replication === "Yes") reasons.push("trade replication");
+  if (ctx.minimumTimeBetweenTradesMinutes >= 5) reasons.push("cooldown discipline");
+  if (ctx.maxDifferentInstrumentsPerDay === 1) reasons.push("single-instrument focus");
+
+  return reasons;
+}
+
+function buildPlans(ctx) {
+  const behaviorCaution = calculateBehaviorCaution(ctx);
+  const cappedRisk = deriveRiskCap(ctx);
+  const cappedTrades = deriveTradeCap(ctx);
+  const isPercent = ctx.riskMode === "Percentage of account";
+
+  const pressure = calculateRiskPressure(
+    ctx,
+    cappedRisk,
+    cappedTrades
+  );
+
+  const pressureFactor = pressureAdjustment(pressure.pressureScore);
+  const intelligenceFactor = clamp(behaviorCaution * pressureFactor, 0.25, 1);
+
+  const maxRisk = cappedRisk > 0 ? cappedRisk : ctx.riskValue;
+  const maxTrades = cappedTrades > 0 ? cappedTrades : (ctx.maxTradesPerDay || 1);
+
+  const conservativeRisk = roundSmart(maxRisk * 0.50 * intelligenceFactor, isPercent ? "percent" : "money");
+  const balancedRisk = roundSmart(maxRisk * 0.75 * intelligenceFactor, isPercent ? "percent" : "money");
+  const aggressiveRisk = roundSmart(maxRisk * 1.00 * intelligenceFactor, isPercent ? "percent" : "money");
+
+  const conservativeTrades = Math.max(1, Math.floor(maxTrades * 0.50));
+  const balancedTrades = Math.max(1, Math.floor(maxTrades * 0.75));
+  const aggressiveTrades = Math.max(1, Math.floor(maxTrades * 1.00));
+
+  const reasons = buildPlanReasons(ctx);
+  const reasonText = reasons.length
+    ? `Adjusted using ${reasons.slice(0, 4).join(", ")}.`
+    : `Adjusted using your account rules and profile constraints.`;
+
+  return [
+    {
+      id: "conservative",
+      name: "Conservative Plan",
+      riskLabel: "Low Risk",
+      riskClass: "risk-low",
+      description: "Designed for maximum capital protection.",
+      riskPerTrade: conservativeRisk,
+      maxTradesPerDay: conservativeTrades,
+      focus: "Preserve capital and reduce emotional pressure.",
+      reason: reasonText,
+      pressure
+    },
+    {
+      id: "balanced",
+      name: "Balanced Plan",
+      riskLabel: "Moderate Risk",
+      riskClass: "risk-mid",
+      description: "Designed for controlled growth and stability.",
+      riskPerTrade: balancedRisk,
+      maxTradesPerDay: balancedTrades,
+      focus: "Maintain structure while allowing steady progress.",
+      reason: reasonText,
+      pressure
+    },
+    {
+      id: "aggressive",
+      name: "Aggressive Plan",
+      riskLabel: "Higher Risk",
+      riskClass: "risk-high",
+      description: "Designed for faster progress within your limits.",
+      riskPerTrade: aggressiveRisk,
+      maxTradesPerDay: aggressiveTrades,
+      focus: "Push performance while still respecting account rules.",
+      reason: reasonText,
+      pressure
+    }
+  ];
+}
+
+function renderSummary(ctx) {
+  document.getElementById("summaryAccountType").textContent = ctx.accountType || "—";
+  document.getElementById("summaryDailyLoss").textContent = ctx.dailyLoss ? formatMoney(ctx.dailyLoss) : "—";
+  document.getElementById("summaryRiskPerTrade").textContent = ctx.riskValue ? formatRisk(ctx.riskMode, ctx.riskValue) : "—";
+  document.getElementById("summaryMaxTrades").textContent = ctx.maxTradesPerDay ? ctx.maxTradesPerDay : "—";
+}
+
+function activateRecommendedPlan(plan, ctx) {
+  const selectedPlan = {
+    planType: "recommended",
+    selectedId: plan.id,
+    selectedName: plan.name,
+    riskLabel: plan.riskLabel,
+    riskPerTradeMode: ctx.riskMode,
+    riskPerTrade: plan.riskPerTrade,
+    maxTradesPerDay: plan.maxTradesPerDay,
+    description: plan.description,
+    intelligenceFactorsUsed: buildPlanReasons(ctx),
+    pressureScore: plan.pressure.pressureScore
+  };
+
+  localStorage.setItem("tradeGuardianSelectedPlan", JSON.stringify(selectedPlan));
+  localStorage.setItem("tradeGuardianActivePlan", JSON.stringify(selectedPlan));
+  localStorage.removeItem("tradeGuardianCustomPlan");
+  window.location.href = "guardian-dashboard.html";
+}
+
+function renderPlans(plans, ctx) {
+  const container = document.getElementById("planCards");
+  container.innerHTML = "";
+
+  plans.forEach(plan => {
+    const pressureInfo = getPressureLabel(plan.pressure.pressureScore);
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div>
+          <div class="plan-name">${plan.name}</div>
+          <div class="plan-sub">${plan.description}</div>
+        </div>
+        <div class="risk-badge ${plan.riskClass}">${plan.riskLabel}</div>
+      </div>
+
+      <div class="pressure-box">
+        <div class="pressure-dot ${pressureInfo.dotClass}"></div>
+        <div class="pressure-text">${pressureInfo.text}</div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-label">Risk per trade</div>
+          <div class="metric-value">${formatRisk(ctx.riskMode, plan.riskPerTrade)}</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Max trades per day</div>
+          <div class="metric-value">${plan.maxTradesPerDay}</div>
+        </div>
+      </div>
+
+      <div class="features">
+        <div class="feature">${plan.focus}</div>
+        <div class="feature">Built to respect your daily loss and drawdown rules</div>
+        <div class="feature">Aligned with your account type and risk structure</div>
+      </div>
+
+      <div class="reason-box">${plan.reason}</div>
+
+      <div class="cta-row">
+        <button class="btn btn-primary">Select Plan</button>
+      </div>
+    `;
+
+    card.querySelector("button").addEventListener("click", () => {
+      activateRecommendedPlan(plan, ctx);
+    });
+
+    container.appendChild(card);
+  });
+}
+
+function init() {
+  const ctx = getContext();
+  renderSummary(ctx);
+
+  const plans = buildPlans(ctx);
+  renderPlans(plans, ctx);
+
+  document.getElementById("customPlanBtn").addEventListener("click", () => {
+    localStorage.setItem("tradeGuardianSelectedPlan", JSON.stringify({
+      planType: "custom"
+    }));
+    window.location.href = "custom-trading-plan.html";
+  });
+}
+
+init();
+</script>
+
+
+  <script type="module" src="firebase-init.js"></script>
+  <script type="module" src="auth-guard.js"></script>
+  <script type="module" src="save-data.js"></script>
+  <script type="module" src="save-recommended-plan.js"></script>
+</body>
+</html>
